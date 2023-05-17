@@ -1,6 +1,35 @@
+print('-' * 20)
 print('Bem vindo a Porto!')
+print('-' * 100)
 
+blocklist = [
+    '00000000000',
+    '11111111111',
+    '22222222222',
+    '33333333333',
+    '44444444444',
+    '55555555555',
+    '66666666666',
+    '77777777777',
+    '88888888888',
+    '99999999999'
+]
 
+segurados = {
+    '10184839939': {
+            'Nome': 'Tanjiro Kamado',
+            'Sexo': 'M',
+            'Telefone': '11982415839',
+            'Email': 'tanjiro.kamado@fiap.com.br',
+            'Apólice': 'Multirrisco',
+            'Veículo': 'VUC',
+            'Eixos': '2',
+            'Altura': '3,5 m',
+            'Comprimento': '6,2 m',
+            'Largura': '2,2 m',
+            'Peso': '3,5 t'
+        }
+}
 def validador_cpf(cpf):
     corpo_cpf = cpf[:9]
     digito_cpf = cpf[-2:]
@@ -28,94 +57,104 @@ def validador_cpf(cpf):
 
     return digito_cpf == f'{digito_1}{digito_2}'
 
+def abertura_de_sinistro():
+    print('-' * 100)
+    print('Olá, o acionamento do seguro será feito por aqui!')
+    print('-' * 100)
 
-def sistema_entrada(x):
+    if cpf_formatado in segurados:
 
-    while True:
-        print('Olá! Seu atendimento de veiculos pesados será iniciado!')
-        carroceria = input("Por favor digíte o tipo de carroceria do seu veículo:\n")
-        if carroceria.isspace():
-            print('Digite o tipo de carroceria do veiculo!\n')
-        else:
-            while True:
-                altura_entrada = input('Para continuar, digite a altura do veiculo em metros:\n')
-                altura_sem_ponto = altura_entrada.replace('.', '')
-                altura = altura_sem_ponto.replace(',', '')
+        while True:
+            print(f'Olá {segurados[cpf_formatado]["Nome"]} Verificamos que sua apólice é de'
+                  f' {segurados[cpf_formatado]["Apólice"]}\n')
+            print('Por favor, nos diga o que aconteceu!')
+            print('[0] Batida\n[1] Pane elétrica\n[2] Desatres naturais\n[3] Sair')
+            escolha_usuario = input('Selecione uma das opções acima:')
 
-                if altura.isnumeric():
-                    while True:
-                        comprimento_entrada = input('Digite o comprimento do veiculo em metros:\n')
-                        comprimento_sem_ponto = comprimento_entrada.replace('.', '')
-                        comprimento = comprimento_sem_ponto.replace(',', '')
+            if escolha_usuario.isnumeric():
+                    if escolha_usuario == '0':
 
-                        if comprimento.isnumeric():
-                            while True:
-                                chassi = input('Para continuar, digite o chassi do veiculo:\n')
-                                if chassi.isspace():
-                                    print('Por favor, digite o chassi!')
-                                else:
-                                    quantidade_de_eixos = input('Para continuar, digite a quantidade de eixos:\n')
-                                    if quantidade_de_eixos.isnumeric():
-                                        while True:
-                                            print(f'Olá, verifique se suas informações estão corretas:\n'
-                                                  f'CPF: {cpf_formatado}\n'
-                                                  f'Comprimento: {comprimento_entrada}' + ' m\n'
-                                                  f'Altura: {altura_entrada}' + ' m\n'
-                                                  f'Chassi: {chassi}\n'
-                                                  f'Eixos: {quantidade_de_eixos}\n'
-                                                  f'Carroceria: {carroceria}\n'
-                                                  f'Se estão corretas digite "1" , se não digite "2": ')
-                                            digito_verificador = input()
+                        print(f'A opção escolhida foi [{escolha_usuario}] Batida\n')
+                        print('-' * 100)
 
-                                            if digito_verificador.lower() == '1':
-                                                while True:
-                                                    print('Sua solicitação foi feita!')
-                                                    nova_solicitacao = input('Para fazer uma nova '
-                                                                             'solicitação digite "1",'
-                                                                             ' se não digite "2":')
-                                                    if nova_solicitacao.lower() == '2':
-                                                        print('Obrigado por escolher a Porto!')
-                                                        exit()
-                                                    elif nova_solicitacao.lower() == '1':
-                                                        print('Ok, Digite as informações para uma nova solicitação')
-                                                        sistema_entrada(True)
-                                                    else:
-                                                        print('Não entendi! Digite o número novamente')
+                        print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
+                              f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
+                              f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
+                              f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
+                              f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
+                              f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
 
-                                            elif digito_verificador.lower() == '2':
-                                                print('Ok, digite novamente as informações novamente!')
-                                                sistema_entrada(True)
-                                            else:
-                                                print('Não entendi! Digite o número novamente')
+                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
+                        if digito_verificador.isnumeric():
+                            if digito_verificador == '1':
+                                return True
 
-                                    elif quantidade_de_eixos.isspace():
-                                        print('Por favor, digite a quantidade de eixos!')
-                                    else:
-                                        print('Por favor, utilize numeros para informar os eixos')
+                            elif digito_verificador == '2':
+                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice')
+                                return False
+                        else:
+                            print('Por favor utilize números na hora da escolha!')
 
-                        elif comprimento.isspace():
-                            print('Por favor, digite o comprimento!')
+                    elif escolha_usuario == '1':
+                        print(f'A opção escolhida foi [{escolha_usuario}] Pane elétrica\n')
+                        print('-' * 100)
+
+                        print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
+                              f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
+                              f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
+                              f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
+                              f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
+                              f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
+
+                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
+                        if digito_verificador.isnumeric():
+                            if digito_verificador == '1':
+                                solicitar_guincho = True
+                                break
+
+                            elif digito_verificador == '2':
+                                solicitar_guincho = False
+                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice')
+                                break
 
                         else:
-                            print('O comprimento deve ser digitado em numeros!')
-                elif altura.isspace():
-                    print("Por favor, utilize numeros!")
-                else:
-                    print('A altura deve ser utilizada numeros!')
+                            print('Por favor utilize números na hora da escolha!')
 
+                    elif escolha_usuario == '2':
+                        print(f'A opção escolhida foi [{escolha_usuario}] Desastres naturais\n')
+                        print('-' * 100)
+                        print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
+                              f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
+                              f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
+                              f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
+                              f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
+                              f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
 
-blocklist = [
-    '00000000000',
-    '11111111111',
-    '22222222222',
-    '33333333333',
-    '44444444444',
-    '55555555555',
-    '66666666666',
-    '77777777777',
-    '88888888888',
-    '99999999999'
-]
+                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
+                        if digito_verificador.isnumeric():
+                            if digito_verificador == '1':
+                                solicitar_guincho = True
+                                break
+
+                            elif digito_verificador == '2':
+                                solicitar_guincho = False
+                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice')
+                                break
+
+                        else:
+                            print('Por favor utilize números na hora da escolha!')
+
+                    elif escolha_usuario == '3':
+                        print(f'A opção escolhida foi [{escolha_usuario}] Sair\n')
+                        break
+                    else:
+                        print('Por favor escolha apenas as opções listadas acima!')
+            else:
+                print('Por favor utilize números na hora da escolha!')
+
+    else:
+        print('Você não tem nenhuma apolice cadastrada!')
+
 
 while True:
     cpf_entrada = input('Para prosseguir com o atendimento, por favor digite seu CPF ou insira "X" para sair:')
@@ -128,9 +167,11 @@ while True:
                 print('O CPF não pode conter todos números iguais!\n')
             else:
                 if validador_cpf(cpf_formatado):
-                    print('Seu CPF está valido!\n')
-                    sistema_entrada(True)
-
+                    print('-' * 100)
+                    print('Seu CPF está valido!')
+                    print('-' * 100)
+                    abertura_de_sinistro()
+                    break
                 else:
                     print('Seu CPF está invalido\n')
         else:
