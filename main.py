@@ -226,7 +226,7 @@ def solicitar_guincho(sinistro):
     elif sinistro == 1:
         while True:
             bateria = input('[1] Bateria Comum\n'
-                            '[2] Bataria de caminhões'
+                            '[2] Bateria de caminhões'
                             '\nPoderia nos dizer o tipo de bateria do seu veiculo?:')
 
             if bateria.isnumeric():
