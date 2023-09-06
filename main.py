@@ -1,375 +1,195 @@
-import time
+def timer(tempo):
+    import time
+    import sys
 
-print('-' * 100)
-print('Bem vindo a Porto!')
-print('-' * 100)
+    if tempo == 10:
+        print(f'Em {tempo} segundos o programa será fechado!')
+        print('-' * 100)
+        print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
+        print('-' * 100)
+        for i in range(0, tempo):
+            sys.stdout.write("\r{}".format(i + 1))
+            sys.stdout.flush()
+            time.sleep(1)
 
-
-def validador_cpf(cpf):
-    corpo_cpf = cpf[:9]
-    digito_cpf = cpf[-2:]
-
-    calculo_1 = 0
-    calculo_2 = 0
-
-    multiplicacao = [10, 9, 8, 7, 6, 5, 4, 3, 2]
-
-    for i, j in zip(multiplicacao, corpo_cpf):
-        calculo_1 += i * int(j)
-
-    resto_1 = calculo_1 % 11
-
-    digito_1 = 0 if resto_1 < 2 else 11 - resto_1
-
-    corpo_cpf += str(digito_1)
-
-    for i, j in zip(multiplicacao, corpo_cpf[1:]):
-        calculo_2 += i * int(j)
-
-    resto_2 = calculo_2 % 11
-
-    digito_2 = 0 if resto_2 < 2 else 11 - resto_2
-
-    return digito_cpf == f'{digito_1}{digito_2}'
-
-
-def abertura_de_sinistro():
-
-    if cpf_formatado in segurados:
-
-        while True:
-            print('-' * 100)
-            print('Olá, o acionamento do seguro será feito por aqui!')
-            print('-' * 100)
-
-            print(f'Olá {segurados[cpf_formatado]["Nome"]} Verificamos que sua apólice é de'
-                  f' {segurados[cpf_formatado]["Apólice"]}\n')
-            print('Por favor, nos diga o que aconteceu!')
-            print('[0] Batida\n[1] Pane elétrica\n[2] Desatres naturais\n[3] Sair')
-
-            escolha_usuario = input('Selecione uma das opções acima:')
-
-            if escolha_usuario.isnumeric():
-                if escolha_usuario == '0':
-                    print(f'A opção escolhida foi [{escolha_usuario}] Batida\n')
-                    print('-' * 100)
-
-                    print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
-                          f'Placa: {segurados[cpf_formatado]["Placa"]}\n'
-                          f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
-                          f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
-                          f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
-                          f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
-                          f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
-
-                    while True:
-                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
-                        if digito_verificador.isnumeric():
-                            if digito_verificador == '1':
-                                return '0'
-
-                            elif digito_verificador == '2':
-                                print('-' * 100)
-                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice\n'
-                                      'SAC: 11946236792')
-                                print('-' * 100)
-                                return ''
-
-                            else:
-                                print('-' * 100)
-                                print('Por favor escolha somente as opções informadas!')
-
-                        else:
-                            print('¨' * 100)
-                            print('Por favor utilize números na hora da escolha!')
-
-                if escolha_usuario == '1':
-                    print(f'A opção escolhida foi [{escolha_usuario}] Batida\n')
-                    print('-' * 100)
-
-                    print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
-                          f'Placa: {segurados[cpf_formatado]["Placa"]}\n'
-                          f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
-                          f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
-                          f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
-                          f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
-                          f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
-
-                    while True:
-                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
-                        if digito_verificador.isnumeric():
-                            if digito_verificador == '1':
-                                return '1'
-
-                            elif digito_verificador == '2':
-                                print('-' * 100)
-                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice\n'
-                                      'SAC: 11946236792')
-                                print('-' * 100)
-                                return ''
-
-                            else:
-                                print('-' * 100)
-                                print('Por favor escolha somente as opções informadas!')
-
-                        else:
-                            print('¨' * 100)
-                            print('Por favor utilize números na hora da escolha!')
-
-                if escolha_usuario == '2':
-                    print(f'A opção escolhida foi [{escolha_usuario}] Batida\n')
-                    print('-' * 100)
-
-                    print(f'Veículo: {segurados[cpf_formatado]["Veículo"]}\n'
-                          f'Placa: {segurados[cpf_formatado]["Placa"]}\n'
-                          f'Eixos: {segurados[cpf_formatado]["Eixos"]}\n'
-                          f'Altura: {segurados[cpf_formatado]["Altura"]}\n'
-                          f'Comprimento: {segurados[cpf_formatado]["Comprimento"]}\n'
-                          f'Peso: {segurados[cpf_formatado]["Peso"]}\n'
-                          f'Largura: {segurados[cpf_formatado]["Largura"]}\n')
-
-                    while escolha_usuario:
-                        digito_verificador = input('[1] Sim\n[2] Não\nSuas informações estão corretas?:')
-                        if digito_verificador.isnumeric():
-                            if digito_verificador == '1':
-                                return '2'
-
-                            elif digito_verificador == '2':
-                                print('-' * 100)
-                                print('Por favor entre em contato com o nosso SAC para alterar sua apólice\n'
-                                      'SAC: 11946236792')
-                                print('-' * 100)
-                                return ''
-
-                            else:
-                                print('-' * 100)
-                                print('Por favor escolha somente as opções informadas!')
-
-                        else:
-                            print('¨' * 100)
-                            print('Por favor utilize números na hora da escolha!')
-
-                elif escolha_usuario == '3':
-                    print('-' * 100)
-                    print('Você escolheu sair!')
-                    print('-' * 100)
-                    return ''
-
-                else:
-                    print('-' * 100)
-                    print('Por favor escolha apenas as opções listadas acima!')
-                    print('-' * 100)
-
-            else:
-                print('-' * 100)
-                print('Por favor utilize números na hora da escolha!')
-                print('-' * 100)
+    elif tempo == 3:
+        print(f'Em {tempo} segundos você voltará para fazer login!')
+        print('-' * 100)
+        for i in range(0, tempo):
+            sys.stdout.write("\r{}".format(i + 1))
+            sys.stdout.flush()
+            time.sleep(1)
+        print('')
 
     else:
-        print('-' * 100)
-        print('Você não tem nenhuma apolice cadastrada!\n'
-              'Para cadastrar uma apolice, por favor entre no nosso site: https://www.portoseguro.com.br/')
-        print('-' * 100)
-        return ''
+        print(f'Em {tempo} segundos voltaremos para o menu incial...')
+        for i in range(0, tempo):
+            sys.stdout.write("\r{}".format(i + 1))
+            sys.stdout.flush()
+            time.sleep(1)
+        print('')
 
 
-def solicitar_guincho(sinistro):
+def login():
+    def validador_cpf(cpf):
+        corpo_cpf = cpf[:9]
+        digito_cpf = cpf[-2:]
+
+        calculo_1 = 0
+        calculo_2 = 0
+
+        multiplicacao = [10, 9, 8, 7, 6, 5, 4, 3, 2]
+
+        for i, j in zip(multiplicacao, corpo_cpf):
+            calculo_1 += i * int(j)
+
+        resto_1 = calculo_1 % 11
+
+        digito_1 = 0 if resto_1 < 2 else 11 - resto_1
+
+        corpo_cpf += str(digito_1)
+
+        for i, j in zip(multiplicacao, corpo_cpf[1:]):
+            calculo_2 += i * int(j)
+
+        resto_2 = calculo_2 % 11
+
+        digito_2 = 0 if resto_2 < 2 else 11 - resto_2
+
+        return digito_cpf == f'{digito_1}{digito_2}'
+
+    blocklist = [
+        '00000000000',
+        '11111111111',
+        '22222222222',
+        '33333333333',
+        '44444444444',
+        '55555555555',
+        '66666666666',
+        '77777777777',
+        '88888888888',
+        '99999999999'
+    ]
+
     print('-' * 100)
-    print('Pediremos apenas mais algumas informações para concluir com a solicitação do guincho.')
-    print('-' * 100 + '\n')
+    print('Bem vindo a RebocAI!')
+    print('-' * 100)
 
-    if sinistro == 0:
-        while True:
-            veiculo_tombado = input('[1] sim\n[2] Não\nPoderia nos dizer se seu veiculo se encontra tombado?:')
-            print('-' * 100)
+    while True:
+        cpf_entrada = input('Por favor digite seu CPF para fazer login ou insira "X" para sair:')
+        print('-' * 100)
+        cpf_sem_barra = cpf_entrada.replace('-', '')
+        cpf_formatado = cpf_sem_barra.replace('.', '')
 
-            if veiculo_tombado.isnumeric():
-                while True:
-                    if veiculo_tombado == '1':
-                        peso_carga_entrada = input('Digite o peso da carga que está sendo transportada em toneladas: ')
-                        print('-' * 100)
-
-                        if peso_carga_entrada.isnumeric():
-                            peso_carga = float(peso_carga_entrada)
-
-                            print(f'Ok! Estamos enviando um guincho para veículos tombados com cargas de '
-                                  f'{peso_carga} toneladas')
-                            print('-' * 100)
-                            return ''
-
-                        else:
-                            print('Por favor utilize numeros para digitar o peso da carga')
-
-                    elif veiculo_tombado == '2':
-                        peso_carga_entrada = input('Digite o peso da carga que está sendo transportada em toneladas: ')
-                        print('-' * 100)
-
-                        if peso_carga_entrada.isnumeric():
-                            peso_carga = float(peso_carga_entrada)
-
-                            print(f'Ok! Estamos enviando um guincho para veículos cargas de '
-                                  f'{peso_carga} toneladas')
-                            print('-' * 100)
-                            return ''
-
-                        else:
-                            print('Por favor utilize numeros para digitar o peso da carga')
-
-                    else:
-                        print('-' * 100)
-                        print('Por favor escolha somente as opções dadas!')
-                        print('-' * 100)
-                        break
-            else:
-                print('Por favor digite numeros na hora da escolha\n')
-
-    elif sinistro == 1:
-        while True:
-            bateria = input('[1] Bateria Comum\n'
-                            '[2] Bateria de caminhões'
-                            '\nPoderia nos dizer o tipo de bateria do seu veiculo?:')
-
-            if bateria.isnumeric():
-                while True:
-                    if bateria == '1':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um motoboy com uma bateria comum para a troca!')
-                        print('-' * 100)
-                        return ''
-
-                    elif bateria == '2':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um motoboy com uma bateria de caminhões para a troca! ')
-                        print('-' * 100)
-                        return ''
-                    else:
-                        print('-' * 100)
-                        print('Por favor escolha somente as opções dadas!')
-                        print('-' * 100)
-                        break
-            else:
-                print('-' * 100)
-                print('Por favor utilize numeros na hora da escolha')
-                print('-' * 100)
-
-    elif sinistro == 2:
-        while True:
-            desastres_naturais = input('[1] Árvore caída\n[2] Desmoronamento\n[3] Alagamento\n[4] Raio\n'
-                                       'Por favor escolha uma das opções de acordo com o ocorrido:')
-
-            if desastres_naturais.isnumeric():
-                while True:
-                    if desastres_naturais == '1':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um guincho para retirada de veículos atingido por árvores!')
-                        print('-' * 100)
-                        return ''
-
-                    elif desastres_naturais == '2':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um guincho para veículos atingidos por desmoronamento!')
-                        print('-' * 100)
-                        return ''
-
-                    elif desastres_naturais == '3':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um guincho para veículos alagados!')
-                        print('-' * 100)
-                        return ''
-
-                    elif desastres_naturais == '4':
-                        print('-' * 100)
-                        print('Ok! Estamos enviando um guincho para seu veículo atingido!')
-                        print('-' * 100)
-                        return ''
-
-                    else:
-                        print('-' * 100)
-                        print('Por favor escolha somente as opções dadas!')
-                        print('-' * 100)
-                        break
-            else:
-                print('-' * 100)
-                print('Por favor utilize numeros na hora da escolha')
-                print('-' * 100)
-    else:
-        print('Não entendemos sua solicitação, por favor entre em contato com nosso SAC\n'
-              'SAC: 11946236792')
-
-
-blocklist = [
-    '00000000000',
-    '11111111111',
-    '22222222222',
-    '33333333333',
-    '44444444444',
-    '55555555555',
-    '66666666666',
-    '77777777777',
-    '88888888888',
-    '99999999999'
-]
-
-segurados = {
-    '52733860801': {
-            'Nome': 'Tanjiro Kamado',
-            'Sexo': 'M',
-            'Telefone': '11982415839',
-            'Email': 'tanjiro.kamado@fiap.com.br',
-            'Apólice': 'Multirrisco',
-            'Placa': 'VCP2R90',
-            'Veículo': 'VUC',
-            'Eixos': '2',
-            'Altura': '3,5 m',
-            'Comprimento': '6,2 m',
-            'Largura': '2,2 m',
-            'Peso': '3,5 t'
-        }
-}
-
-while True:
-    cpf_entrada = input('Para prosseguir com o atendimento, por favor digite seu CPF ou insira "X" para sair:')
-    cpf_sem_barra = cpf_entrada.replace('-', '')
-    cpf_formatado = cpf_sem_barra.replace('.', '')
-
-    if cpf_formatado.isnumeric():
-        if len(cpf_formatado) == 11:
-            if cpf_formatado in blocklist:
-                print('O CPF não pode conter todos números iguais!\n')
-            else:
-                if validador_cpf(cpf_formatado):
-                    print('-' * 100)
-                    print('x' * 100)
-
-                    tipo_sinistro_entrada = abertura_de_sinistro()
-
-                    if tipo_sinistro_entrada.isnumeric():
-                        tipo_sinistro = int(tipo_sinistro_entrada)
-
-                        tipo_guincho = solicitar_guincho(tipo_sinistro)
-                        print(tipo_guincho)
-                        print('Em 10 segundos o atendimento será encerrado!')
-                        time.sleep(10)
-                        break
-
-                    else:
-                        print('Em 10 segundos o atendimento será encerrado')
-                        time.sleep(10)
-                        break
-
+        if cpf_formatado.isnumeric():
+            if len(cpf_formatado) == 11:
+                if cpf_formatado in blocklist:
+                    print('O CPF não pode conter todos números iguais!\n')
                 else:
-                    print('Seu CPF está invalido\n')
+                    if not validador_cpf(cpf_formatado):
+                        print('Seu CPF está invalido\n')
+                    else:
+                        if cpf_formatado in segurados:
+                            return True
+                        else:
+                            cadastro(cpf_formatado)
+            else:
+                print('O CPF deve conter 11 dígitos!\n')
 
+        elif cpf_formatado.lower() == 'x':
+            break
         else:
-            print('O CPF deve conter 11 dígitos!\n')
+            print('Digite seu CPF corretamente ou apenas "x" para sair!\n')
 
-    elif cpf_formatado.lower() == 'x':
-        print('Em 10 segundos o atendimento será encerrado')
-        time.sleep(10)
-        break
-    else:
-        print('Digite seu CPF corretamente ou apenas "x" para sair!\n')
 
-print('x' * 100)
-print('Atendimento encerrado!')
-print('x' * 100)
+def cadastro(identificacao):
+    print('-' * 100)
+    print('Percebemos que seu CPF não possui cadastro no nosso sistema!\n'
+          'Iremos te cadastrar neste exato momento! ')
+    print('-' * 100)
+    def dados_cadastro(item):
+        if item == 'nome':
+            while True:
+                nome = input('Digite o seu primeiro nome: ')
+                if nome.isnumeric():
+                    print('Não utilize numeros na hora de cadastrar o nome!')
+                else:
+                    return nome
+
+        elif item == 'sobrenome':
+            while True:
+                sobrenome = input('Digite o seu sobrenome: ')
+                if sobrenome.isnumeric():
+                    print('Não utilize numeros na hora de cadastrar o sobrenome!')
+                else:
+                    return sobrenome
+
+        elif item == 'veiculo':
+            while True:
+                veiculo = input('Digite o modelo do seu veiculo pesado: ')
+                if veiculo.isnumeric():
+                    print('Não utilize numeros na hora de cadastrar o veiculo')
+                else:
+                    return veiculo
+
+        elif item == 'placa':
+            while True:
+                placa = input('Digite o seu numero da placa: ')
+                if len(placa) == 7:
+                    return placa
+                else:
+                    print('Sua placa deve conter 7 digitos')
+
+        elif item == 'numero':
+            while True:
+                numero = input('Digite o seu numero de numero de telefone: ')
+                if numero.isnumeric():
+                    return numero
+                else:
+                    print('Por favor não utilize letras na hora cadastrar o seu número')
+
+        elif item == 'eixos':
+            while True:
+                eixo = input('Digite o seu numero de eixos: ')
+                if eixo.isnumeric():
+                    return eixo
+                else:
+                    print('Por favor não utilize letras na hora cadastrar o seu eixo')
+
+        elif item == 'apolice':
+            while True:
+                print('[1] Multirisco;\n'
+                      '[2] Risco nomeado;\n'
+                      '[3] Apolice de recibo\n')
+                apolice = input('Digite o numero da apolice que deseja cadastrar: ')
+                if apolice.isnumeric():
+                    if int(apolice) > 3:
+                        print('Por favor escolha somente as opções acima')
+                    elif int(apolice) <= 0:
+                        print('Por favor escolha somente as opções acima')
+                    else:
+                        return apolice
+                else:
+                    print('Utilize numeros na hora da escolha ')
+
+    segurados_cadastro = {
+        'nome': dados_cadastro('nome'),
+        'sobrenome': dados_cadastro('sobrenome'),
+        'veiculo': dados_cadastro('veiculo'),
+        'placa': dados_cadastro('placa'),
+        'numero': dados_cadastro('numero'),
+        'eixos': dados_cadastro('eixos'),
+        'apolice': dados_cadastro('apolice'),
+    }
+
+    segurados[identificacao] = segurados_cadastro
+    print('-' * 100)
+    print((' ' * 30) + 'Seus dados foram cadastrados com sucesso! Por favor faça login')
+    print('-' * 100)
+    timer(3)
+
+
+segurados = {}
+
+if login():
+    print(segurados)
