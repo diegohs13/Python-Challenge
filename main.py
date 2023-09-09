@@ -4,9 +4,6 @@ def timer(tempo):
 
     if tempo == 10:
         print(f'Em {tempo} segundos o programa será fechado!')
-        print('-' * 100)
-        print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
-        print('-' * 100)
         for i in range(0, tempo):
             sys.stdout.write("\r{}".format(i + 1))
             sys.stdout.flush()
@@ -92,7 +89,8 @@ def cpf_entrada():
                 print('O CPF deve conter 11 dígitos!\n')
 
         elif cpf_formatado.lower() == 'x':
-            break
+            return False
+
         else:
             print('Digite seu CPF corretamente ou apenas "x" para sair!\n')
 
@@ -104,7 +102,19 @@ def login():
 
     cpf_usuario = cpf_entrada()
 
-    return True if cpf_usuario in segurados else cadastro(cpf_usuario)
+    if cpf_usuario in segurados:
+        return True
+
+    elif cpf_usuario.lower() == 'x':
+        return False
+
+    else:
+        cadastro(cpf_usuario)
+
+
+def abertura_sinistro(id):
+    print(f'Olá {segurados[id]["nome"]} verificamos que seu veiculo é um {segurados[id]["veiculo"]},'
+          f' a altura do mesmo é de {segurados[id]["altura"]}M e sua Apolice é de {segurados[id]["apolice"]}.')
 
 
 def dados_cadastro(item):
@@ -116,21 +126,21 @@ def dados_cadastro(item):
             else:
                 return nome
 
-    elif item == 'sobrenome':
-        while True:
-            sobrenome = input('Digite o seu sobrenome: ')
-            if sobrenome.isnumeric():
-                print('Não utilize numeros na hora de cadastrar o sobrenome!')
-            else:
-                return sobrenome
-
     elif item == 'veiculo':
         while True:
-            veiculo = input('Digite o modelo do seu veiculo pesado: ')
+            veiculo = input('Digite o modelo do seu veiculo: ')
             if veiculo.isnumeric():
-                print('Não utilize numeros na hora de cadastrar o veiculo')
+                print('Não utilize numeros na hora de cadastrar o veiculo!')
             else:
                 return veiculo
+
+    elif item == 'altura':
+        while True:
+            altura = input('Digite a altura do veiculo arredondada em metros: ')
+            if altura.isnumeric():
+                return altura
+            else:
+                print('Por favor não utilize letras na hora cadastrar a altura')
 
     elif item == 'placa':
         while True:
@@ -161,19 +171,27 @@ def dados_cadastro(item):
             print('[1] Multirisco;\n'
                   '[2] Risco nomeado;\n'
                   '[3] Apolice de recibo\n')
-            apolice = input('Digite o numero da apolice que deseja cadastrar: ')
-            if apolice.isnumeric():
-                if int(apolice) > 3:
-                    print('Por favor escolha somente as opções acima')
-                elif int(apolice) <= 0:
-                    print('Por favor escolha somente as opções acima')
+            apolice_num = input('Digite o numero da apolice que deseja cadastrar: ')
+            if apolice_num.isnumeric():
+                
+                if 4 > int(apolice_num) > 0 :
+                    if int(apolice_num) == 1:
+                        apolice = 'Multirisco'
+                        return apolice
+                    elif int(apolice_num) == 2:
+                        apolice = 'Risco nomeado'
+                        return apolice
+                    elif int(apolice_num) == 3:
+                        apolice = 'Apolice de recibo'
+                        return apolice
+
                 else:
-                    return apolice
+                    print('Por favor escolha somente as opções acima')
             else:
                 print('Utilize numeros na hora da escolha ')
 
 
-def cadastro(identificacao):
+def cadastro(id):
     print('-' * 100)
     print('Percebemos que seu CPF não possui cadastro no nosso sistema!\n'
           'Iremos te cadastrar neste exato momento! ')
@@ -181,15 +199,15 @@ def cadastro(identificacao):
 
     segurados_cadastro = {
         'nome': dados_cadastro('nome'),
-        'sobrenome': dados_cadastro('sobrenome'),
         'veiculo': dados_cadastro('veiculo'),
+        'altura': dados_cadastro('altura'),
         'placa': dados_cadastro('placa'),
         'numero': dados_cadastro('numero'),
         'eixos': dados_cadastro('eixos'),
-        'apolice': dados_cadastro('apolice'),
+        'apolice': dados_cadastro('apolice')
     }
 
-    segurados[identificacao] = segurados_cadastro
+    segurados[id] = segurados_cadastro
     print('-' * 100)
     print((' ' * 30) + 'Seus dados foram cadastrados com sucesso!')
     print('-' * 100)
@@ -197,21 +215,16 @@ def cadastro(identificacao):
 
 
 def mostrar_dados(id):
-    if id in segurados:
-        print(f'Seus dados cadastrados são:\n {segurados[id]}')
-        print('-' * 100)
-    else:
-        print('Não existe nenhum dado cadastrado neste CPF')
-        print('-' * 100)
+    print(f'Seus dados cadastrados são:\n {segurados[id]}')
+    print('-' * 100)
 
 
 def alterar_dados(id):
-
   def escolha_dados():
     print('Escolha qual dado você deseja alterar: ')
     print('[0] - Nome;\n'
-      '[1] - Sobrenome;\n'
-      '[2] - Veiculo;\n'
+      '[1] - Veiculo;\n'
+      '[2] - Altura do veiculo;\n'
       '[3] - Placa;\n'
       '[4] - Numero telefone;\n'
       '[5] - Eixos;\n'
@@ -222,7 +235,7 @@ def alterar_dados(id):
 
         if escolha_usuario.isnumeric():
             if 7 > int(escolha_usuario) >= 0:
-              lista = ['nome', 'sobrenome', 'veiculo', 'placa', 'numero', 'eixos','apolice']
+              lista = ['nome', 'veiculo', 'altura', 'placa', 'numero', 'eixos','apolice']
               return lista[int(escolha_usuario)]
 
             else:
@@ -277,7 +290,8 @@ try:
     login()
 
 except:
-    print("Ocorreu um erro inesperado, por favor tente novamente!")
+    print("Você escolheu sair!")
+    timer(10)
 
 else:
     while True:
@@ -291,16 +305,42 @@ else:
             break
 
         elif menu == '1':
-            print(segurados)
+            id_cpf = cpf_entrada()
+            if id_cpf in segurados:
+                abertura_sinistro(id_cpf)
+
+            elif not id_cpf:
+                continue
+            else:
+                print('-' * 100)
+                print('Você não possui nenhum dado cadastrado neste CPF')
+
 
         elif menu == '2':
             id_cpf = cpf_entrada()
-            mostrar_dados(id_cpf)
+            if id_cpf in segurados:
+                mostrar_dados(id_cpf)
+
+            elif not id_cpf:
+                continue
+            else:
+                print('-' * 100)
+                print('Você não possui nenhum dado cadastrado neste CPF')
+
 
         elif menu == '3':
             id_cpf = cpf_entrada()
-            alterar_dados(id_cpf)
 
+            if id_cpf in segurados:
+                alterar_dados(id_cpf)
+
+            elif not id_cpf:
+                continue
+            else:
+                print('-' * 100)
+                print('Você não possui nenhum dado cadastrado neste CPF')
 
 finally:
-    print('obrigado por usar a RebocAI')
+    print('-' * 100)
+    print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
+    print('-' * 100)
