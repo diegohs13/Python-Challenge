@@ -113,8 +113,290 @@ def login():
 
 
 def abertura_sinistro(id):
+    import datetime
+    import json
+
+    def endereco_sinistro():
+        while True:
+            rua = input('Por favor digite a rua de onde o veiculo está: ')
+            if rua.isnumeric():
+                print('Por favor não utilize numeros na hora de digitar a rua! ')
+            else:
+
+                while True:
+                    numero = input('Por favor digite o numero ou o km onde o veiculo esta: ')
+                    if numero.isnumeric():
+                        while True:
+                            cep = input('Por favor digite seu cep: ')
+                            cep_formatado = cep.replace('-', '')
+                            if cep_formatado.isnumeric():
+                                if len(cep_formatado) == 8:
+
+                                    endereco = {
+                                        'rua': rua,
+                                        'numero': numero,
+                                        'cep': cep
+                                    }
+                                    return endereco
+
+                                else:
+                                    print('O cep deve conter 8 digitos')
+
+                            else:
+                                print('Por favor utilize apenas numeros para digitar o cep!')
+                    else:
+                        print('Por favor utilize numeros na hora de informar o numero/km!')
+
+    def tipo_sinistro():
+        while True:
+            escolha_usuario = input('Por favor escolha uma das opções acima: ')
+            print('-' * 100)
+
+            if escolha_usuario.isnumeric():
+                if 5 > int(escolha_usuario) > 0:
+                    return escolha_usuario
+
+                else:
+                    print('Escolha somente as opções listadas')
+                    print('-' * 100)
+
+            else:
+                print('Por favor utilize números na escolha')
+                print('-' * 100)
+
     print(f'Olá {segurados[id]["nome"]} verificamos que seu veiculo é um {segurados[id]["veiculo"]},'
           f' a altura do mesmo é de {segurados[id]["altura"]}M e sua Apolice é de {segurados[id]["apolice"]}.')
+
+    print('-' * 100)
+    print('Vamos começar com seu endereço!')
+    endereco_usuario = endereco_sinistro()
+
+    print('-' * 100)
+    print('O que aconteceu com seu veiculo?: ')
+    print('[1] - Pane eletrica;\n'
+          '[2] - Capotamento;\n'
+          '[3] - Desastre natural;\n'
+          '[4] - Batida;\n')
+
+    escolha_sinistro = tipo_sinistro()
+
+    if escolha_sinistro == '1':
+        print('-' * 100)
+        print(f'Otimo! de acordo acordo com o modelo do seu veiculo: {segurados[id]["veiculo"]},'
+              f'estamos enviando um mecanico que chegará em menos de 20 minutos de moto com uma nova bateria!')
+
+        data = datetime.datetime.now()
+
+        registrar_sinistro = {
+            'tipo': 'Pane eletrica',
+            'data': (str(data)),
+            'endereco': endereco_usuario,
+            'img_moto_pane': 'dados_ia/moto_pane_eletrica.jpg'
+        }
+        registros['registro_sinistro'] = registrar_sinistro
+
+        with open('registros.json', 'w') as file:
+            json.dump(registros, file, indent=4)
+
+        timer(4)
+        return True
+
+
+
+    elif escolha_sinistro == '2':
+        print('Otimo! Seu veiculo estava carregado?\n[1] Sim\n[2] Não')
+
+        while True:
+            carregado = input('Por favor escolha uma das opções acima: ')
+            print('-' * 100)
+
+            if carregado.isnumeric():
+                if carregado == '1':
+
+                    while True:
+                        peso = input('Por favor digite o peso da carga em toneladas: ')
+                        if peso.isnumeric():
+                            print('Ok! Estamos enviando um modal de acordo com o peso da sua carga!')
+
+                            data = datetime.datetime.now()
+
+                            registrar_sinistro = {
+                                'tipo': 'Capotamento',
+                                'peso_carga': peso,
+                                'data': (str(data)),
+                                'endereco': endereco_usuario,
+                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                            }
+                            registros['registro_sinistro'] = registrar_sinistro
+
+                            with open('registros.json', 'w') as file:
+                                json.dump(registros, file, indent=4)
+
+                            timer(4)
+                            return True
+
+                        else:
+                            print('Por favor utilize apenas numeros para digitar o peso!')
+
+
+                elif carregado == '2':
+                    print(
+                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo: '
+                        f'{segurados[id]["veiculo"]}')
+                    data = datetime.datetime.now()
+
+                    registrar_sinistro = {
+                        'tipo': 'Capotamento',
+                        'data': (str(data)),
+                        'endereco': endereco_usuario,
+                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                    }
+
+                    registros['registro_sinistro'] = registrar_sinistro
+
+                    with open('registros.json', 'w') as file:
+                        json.dump(registros, file, indent=4)
+
+                    timer(4)
+                    return True
+
+                else:
+                    print('Escolha somente as opções listadas')
+                    print('-' * 100)
+
+            else:
+                print('Por favor utilize números na escolha')
+                print('-' * 100)
+
+    elif escolha_sinistro == '3':
+        print('Otimo! Seu veiculo estava carregado?\n[1] Sim\n[2] Não')
+
+        while True:
+            carregado = input('Por favor escolha uma das opções acima: ')
+            print('-' * 100)
+
+            if carregado.isnumeric():
+                if carregado == '1':
+
+                    while True:
+                        peso = input('Por favor digite o peso da carga em toneladas: ')
+                        if peso.isnumeric():
+                            print('Ok! Estamos enviando um modal de acordo com o peso da sua carga!')
+
+                            data = datetime.datetime.now()
+
+                            registrar_sinistro = {
+                                'tipo': 'Desastre natural',
+                                'peso_carga': peso,
+                                'data': (str(data)),
+                                'endereco': endereco_usuario,
+                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                            }
+                            registros['registro_sinistro'] = registrar_sinistro
+
+                            with open('registros.json', 'w') as file:
+                                json.dump(registros, file, indent=4)
+
+                            timer(4)
+                            return True
+
+                        else:
+                            print('Por favor utilize apenas numeros para digitar o peso!')
+
+
+                elif carregado == '2':
+                    print(
+                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo:'
+                        f' {segurados[id]["veiculo"]}')
+                    data = datetime.datetime.now()
+
+                    registrar_sinistro = {
+                        'tipo': 'Desastre natural',
+                        'data': (str(data)),
+                        'endereco': endereco_usuario,
+                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                    }
+
+                    registros['registro_sinistro'] = registrar_sinistro
+
+                    with open('registros.json', 'w') as file:
+                        json.dump(registros, file, indent=4)
+
+                    timer(4)
+                    return True
+
+                else:
+                    print('Escolha somente as opções listadas')
+                    print('-' * 100)
+
+            else:
+                print('Por favor utilize números na escolha')
+                print('-' * 100)
+
+    elif escolha_sinistro == '4':
+        print('Otimo! Seu veiculo estava carregado?\n[1] Sim\n[2] Não')
+
+        while True:
+            carregado = input('Por favor escolha uma das opções acima: ')
+            print('-' * 100)
+
+            if carregado.isnumeric():
+                if carregado == '1':
+
+                    while True:
+                        peso = input('Por favor digite o peso da carga em toneladas: ')
+                        if peso.isnumeric():
+                            print('Ok! Estamos enviando um modal de acordo com o peso da sua carga!')
+
+                            data = datetime.datetime.now()
+
+                            registrar_sinistro = {
+                                'tipo': 'Batida',
+                                'peso_carga': peso,
+                                'data': (str(data)),
+                                'endereco': endereco_usuario,
+                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                            }
+                            registros['registro_sinistro'] = registrar_sinistro
+
+                            with open('registros.json', 'w') as file:
+                                json.dump(registros, file, indent=4)
+
+                            timer(4)
+                            return True
+
+                        else:
+                            print('Por favor utilize apenas numeros para digitar o peso!')
+
+
+                elif carregado == '2':
+                    print(
+                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo:'
+                        f' {segurados[id]["veiculo"]}')
+                    data = datetime.datetime.now()
+
+                    registrar_sinistro = {
+                        'tipo': 'Batida',
+                        'data': (str(data)),
+                        'endereco': endereco_usuario,
+                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                    }
+
+                    registros['registro_sinistro'] = registrar_sinistro
+
+                    with open('registros.json', 'w') as file:
+                        json.dump(registros, file, indent=4)
+
+                    timer(4)
+                    return True
+
+                else:
+                    print('Escolha somente as opções listadas')
+                    print('-' * 100)
+
+            else:
+                print('Por favor utilize números na escolha')
+                print('-' * 100)
 
 
 def dados_cadastro(item):
@@ -256,6 +538,12 @@ def alterar_dados(id):
 
     segurados[id][dado_para_mudar] = dado_alterado
 
+def registro_sinistro():
+  import json
+  with open('registros.json', 'r') as file:
+    sinistro = json.load(file)
+  return sinistro
+
 
 def menu_inicial():
     print('-' * 100)
@@ -264,7 +552,8 @@ def menu_inicial():
     print('[0] Sair\n'
           '[1] Solicitar sinistro\n'
           '[2] Mostrar dados cadastrados\n'
-          '[3] Alterar dados cadastrados\n')
+          '[3] Alterar dados cadastrados\n'
+          '[4] Mostrar historico de sinistro')
     print('-' * 100)
 
     while True:
@@ -272,7 +561,7 @@ def menu_inicial():
         print('-' * 100)
 
         if escolha_usuario.isnumeric():
-            if 4 > int(escolha_usuario) >= 0:
+            if 5 > int(escolha_usuario) >= 0:
                 return escolha_usuario
 
             else:
@@ -285,6 +574,7 @@ def menu_inicial():
 
 
 segurados = {}
+registros = {}
 
 try:
     login()
@@ -308,6 +598,7 @@ else:
             id_cpf = cpf_entrada()
             if id_cpf in segurados:
                 abertura_sinistro(id_cpf)
+                timer(4)
 
             elif not id_cpf:
                 continue
@@ -320,6 +611,7 @@ else:
             id_cpf = cpf_entrada()
             if id_cpf in segurados:
                 mostrar_dados(id_cpf)
+                timer(4)
 
             elif not id_cpf:
                 continue
@@ -333,6 +625,7 @@ else:
 
             if id_cpf in segurados:
                 alterar_dados(id_cpf)
+                timer(4)
 
             elif not id_cpf:
                 continue
@@ -340,7 +633,18 @@ else:
                 print('-' * 100)
                 print('Você não possui nenhum dado cadastrado neste CPF')
 
+
+        elif menu == '4':
+            if len(registros) == 0:
+                print('-' * 100)
+                print('Você não realizou nenhum sinistro!')
+
+            else:
+                print(registro_sinistro())
+                timer(4)
+
 finally:
     print('-' * 100)
     print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
     print('-' * 100)
+
