@@ -191,7 +191,7 @@ def abertura_sinistro(id):
             'tipo': 'Pane eletrica',
             'data': (str(data)),
             'endereco': endereco_usuario,
-            'img_moto_pane': 'dados_ia/moto_pane_eletrica.jpg'
+            'img_moto_pane': 'dados_ia/img_guinchos/moto_pane_eletrica.jpg'
         }
         registros['registro_sinistro'] = registrar_sinistro
 
@@ -225,7 +225,7 @@ def abertura_sinistro(id):
                                 'peso_carga': peso,
                                 'data': (str(data)),
                                 'endereco': endereco_usuario,
-                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                                'img_guincho': 'dados_ia/img_guinchos/guincho_06.jpg'
                             }
                             registros['registro_sinistro'] = registrar_sinistro
 
@@ -249,7 +249,7 @@ def abertura_sinistro(id):
                         'tipo': 'Capotamento',
                         'data': (str(data)),
                         'endereco': endereco_usuario,
-                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                        'img_guincho': 'dados_ia/img_guinchos/guincho_17.jpg'
                     }
 
                     registros['registro_sinistro'] = registrar_sinistro
@@ -290,7 +290,7 @@ def abertura_sinistro(id):
                                 'peso_carga': peso,
                                 'data': (str(data)),
                                 'endereco': endereco_usuario,
-                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                                'img_guincho': 'dados_ia/img_guinchos/guincho_06.jpg'
                             }
                             registros['registro_sinistro'] = registrar_sinistro
 
@@ -314,7 +314,7 @@ def abertura_sinistro(id):
                         'tipo': 'Desastre natural',
                         'data': (str(data)),
                         'endereco': endereco_usuario,
-                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                        'img_guincho': 'dados_ia/img_guinchos/guincho_17.jpg'
                     }
 
                     registros['registro_sinistro'] = registrar_sinistro
@@ -355,7 +355,7 @@ def abertura_sinistro(id):
                                 'peso_carga': peso,
                                 'data': (str(data)),
                                 'endereco': endereco_usuario,
-                                'img_guincho': 'dados_ia/guincho_06.jpg'
+                                'img_guincho': 'dados_ia/img_guinchos/guincho_06.jpg'
                             }
                             registros['registro_sinistro'] = registrar_sinistro
 
@@ -379,7 +379,7 @@ def abertura_sinistro(id):
                         'tipo': 'Batida',
                         'data': (str(data)),
                         'endereco': endereco_usuario,
-                        'img_guincho': 'dados_ia/guincho_17.jpg'
+                        'img_guincho': 'dados_ia/img_guinchos/guincho_17.jpg'
                     }
 
                     registros['registro_sinistro'] = registrar_sinistro
