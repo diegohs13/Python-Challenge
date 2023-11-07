@@ -598,7 +598,6 @@ else:
             id_cpf = cpf_entrada()
             if id_cpf in segurados:
                 abertura_sinistro(id_cpf)
-                timer(4)
 
             elif not id_cpf:
                 continue
