@@ -1,7 +1,11 @@
-def timer(tempo):
-    import time
-    import sys
+import time
+import sys
+import cx_Oracle
+import datetime
+import json
 
+
+def timer(tempo):
     if tempo == 10:
         print(f'Em {tempo} segundos o programa será fechado!')
         for i in range(0, tempo):
@@ -89,10 +93,36 @@ def cpf_entrada():
                 print('O CPF deve conter 11 dígitos!\n')
 
         elif cpf_formatado.lower() == 'x':
-            return False
+            return cpf_formatado
 
         else:
             print('Digite seu CPF corretamente ou apenas "x" para sair!\n')
+
+
+def conexao_oracle():
+    usuario = 'rm550269'
+    senha = '291103'
+    host = 'oracle.fiap.com.br'
+    sid = 'ORCL'
+    porta = '1521'
+
+    try:
+        credenciais = cx_Oracle.makedsn(host, porta, sid)
+        conexao = cx_Oracle.connect(usuario, senha, credenciais)
+        print("Conexão com o banco de dados Oracle estabelecida com sucesso.")
+        return conexao
+    except cx_Oracle.Error as e:
+        print(f"Erro ao conectar ao banco de dados Oracle: {e}")
+        return None
+
+
+def conexao_close(conexao):
+    try:
+        if conexao:
+            conexao.close()
+            print("Conexão fechada.")
+    except cx_Oracle.Error as e:
+        print(f"Erro ao fechar a conexão: {e}")
 
 
 def login():
@@ -102,20 +132,13 @@ def login():
 
     cpf_usuario = cpf_entrada()
 
-    if cpf_usuario in segurados:
-        return True
-
-    elif cpf_usuario.lower() == 'x':
-        return False
-
+    if cpf_usuario.lower() == 'x':
+        return 1
     else:
-        cadastro(cpf_usuario)
+        return cpf_usuario
 
 
-def abertura_sinistro(id):
-    import datetime
-    import json
-
+def abertura_sinistro():
     def endereco_sinistro():
         while True:
             rua = input('Por favor digite a rua de onde o veiculo está: ')
@@ -164,9 +187,6 @@ def abertura_sinistro(id):
                 print('Por favor utilize números na escolha')
                 print('-' * 100)
 
-    print(f'Olá {segurados[id]["nome"]} verificamos que seu veiculo é um {segurados[id]["veiculo"]},'
-          f' a altura do mesmo é de {segurados[id]["altura"]}M e sua Apolice é de {segurados[id]["apolice"]}.')
-
     print('-' * 100)
     print('Vamos começar com seu endereço!')
     endereco_usuario = endereco_sinistro()
@@ -182,8 +202,8 @@ def abertura_sinistro(id):
 
     if escolha_sinistro == '1':
         print('-' * 100)
-        print(f'Otimo! de acordo acordo com o modelo do seu veiculo: {segurados[id]["veiculo"]},'
-              f'estamos enviando um mecanico que chegará em menos de 20 minutos de moto com uma nova bateria!')
+        print('Otimo! de acordo acordo com o modelo do seu veiculo,'
+              'estamos enviando um mecanico que chegará em menos de 20 minutos de moto com uma nova bateria!')
 
         data = datetime.datetime.now()
 
@@ -241,8 +261,7 @@ def abertura_sinistro(id):
 
                 elif carregado == '2':
                     print(
-                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo: '
-                        f'{segurados[id]["veiculo"]}')
+                        'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo')
                     data = datetime.datetime.now()
 
                     registrar_sinistro = {
@@ -306,8 +325,7 @@ def abertura_sinistro(id):
 
                 elif carregado == '2':
                     print(
-                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo:'
-                        f' {segurados[id]["veiculo"]}')
+                        'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo')
                     data = datetime.datetime.now()
 
                     registrar_sinistro = {
@@ -371,8 +389,7 @@ def abertura_sinistro(id):
 
                 elif carregado == '2':
                     print(
-                        f'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo:'
-                        f' {segurados[id]["veiculo"]}')
+                        'Ok! Estamos mandando um Modal de acordo com o modelo do seu veiculo')
                     data = datetime.datetime.now()
 
                     registrar_sinistro = {
@@ -416,37 +433,45 @@ def dados_cadastro(item):
             else:
                 return veiculo
 
+    elif item == 'largura':
+        while True:
+            largura = input('Digite a largura do seu veiculo arredondada em metros: ')
+            if largura.isnumeric():
+                return int(largura)
+            else:
+                print('por favor utilize numeros para digitar a largura')
+
     elif item == 'altura':
         while True:
             altura = input('Digite a altura do veiculo arredondada em metros: ')
             if altura.isnumeric():
-                return altura
+                return int(altura)
             else:
                 print('Por favor não utilize letras na hora cadastrar a altura')
 
-    elif item == 'placa':
+    elif item == 'chassi':
         while True:
-            placa = input('Digite o seu numero da placa: ')
-            if len(placa) == 7:
-                return placa
+            chassi = input('Digite o modelo do seu chassi: ')
+            if len(chassi) < 20:
+                return chassi
             else:
-                print('Sua placa deve conter 7 digitos')
+                print('Seu chassi deve conter no maximo 20 caracteres!!!')
 
     elif item == 'numero':
         while True:
             numero = input('Digite o seu numero de telefone: ')
             if numero.isnumeric():
-                return numero
+                return int(numero)
             else:
                 print('Por favor não utilize letras na hora cadastrar o seu número')
 
-    elif item == 'eixos':
+    elif item == 'ano':
         while True:
-            eixo = input('Digite o seu numero de eixos: ')
-            if eixo.isnumeric():
-                return eixo
+            ano = input('Digite o ano do seu veiculo com 4 caracteres (Ex: 2023): ')
+            if ano.isnumeric() and len(ano) == 4:
+                return int(ano)
             else:
-                print('Por favor não utilize letras na hora cadastrar o seu eixo')
+                print('Por favor urilize 4 caracteres, sendo todos eles numericos!')
 
     elif item == 'apolice':
         while True:
@@ -455,8 +480,8 @@ def dados_cadastro(item):
                   '[3] Apolice de recibo\n')
             apolice_num = input('Digite o numero da apolice que deseja cadastrar: ')
             if apolice_num.isnumeric():
-                
-                if 4 > int(apolice_num) > 0 :
+
+                if 4 > int(apolice_num) > 0:
                     if int(apolice_num) == 1:
                         apolice = 'Multirisco'
                         return apolice
@@ -473,76 +498,142 @@ def dados_cadastro(item):
                 print('Utilize numeros na hora da escolha ')
 
 
-def cadastro(id):
+def cadastro(id, conexao):
+    def insert_veiculo(conexao, sql, id_bd, veiculo, chassi, ano, altura, largura):
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(sql, valor1=id_bd, valor2=veiculo, valor3=chassi, valor4=ano, valor5=altura, valor6=largura)
+            conexao.commit()
+            print("Dados inseridos com sucesso.")
+        except cx_Oracle.Error as e:
+            print(f"Erro ao inserir dados: {e}")
+
+    def insert_usuario(conexao, sql, id_bd, nome, numero, apolice):
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(sql, valor1=id_bd, valor2=nome, valor3=numero, valor4=apolice)
+            conexao.commit()
+            print("Dados inseridos com sucesso.")
+        except cx_Oracle.Error as e:
+            print(f"Erro ao inserir dados: {e}")
+
     print('-' * 100)
     print('Percebemos que seu CPF não possui cadastro no nosso sistema!\n'
           'Iremos te cadastrar neste exato momento! ')
     print('-' * 100)
 
-    segurados_cadastro = {
-        'nome': dados_cadastro('nome'),
-        'veiculo': dados_cadastro('veiculo'),
-        'altura': dados_cadastro('altura'),
-        'placa': dados_cadastro('placa'),
-        'numero': dados_cadastro('numero'),
-        'eixos': dados_cadastro('eixos'),
-        'apolice': dados_cadastro('apolice')
-    }
+    nome = dados_cadastro('nome')
+    veiculo = dados_cadastro('veiculo')
+    largura = dados_cadastro('largura')
+    altura = dados_cadastro('altura')
+    chassi = dados_cadastro('chassi')
+    numero = dados_cadastro('numero')
+    ano = dados_cadastro('ano')
+    apolice = dados_cadastro('apolice')
 
-    segurados[id] = segurados_cadastro
+    id_bd = id
+
+    sql_veiculo = "INSERT INTO TB_PSG_TIPO_VEICULO (ID_TIPO_VEICULO, MODELO_VEICULO, TIPO_CHASSI_VEICULO, ANO_FABRICACAO_VEICULO, ALTURA_VEICULO, LARGURA_VEICULO) VALUES (:valor1, :valor2, :valor3,:valor4, :valor5, :valor6)"
+
+    sql_usuario = "INSERT INTO TB_USUARIO (ID_USUARIO, NOME_USUARIO, TELEFONE_USUARIO, TIPO_APOLICE) VALUES (:valor1, :valor2, :valor3,:valor4)"
+
+    insert_usuario(conexao, sql_usuario, id_bd, nome, numero, apolice)
+    insert_veiculo(conexao, sql_veiculo, id_bd, veiculo, chassi, ano, altura, largura)
+
     print('-' * 100)
     print((' ' * 30) + 'Seus dados foram cadastrados com sucesso!')
     print('-' * 100)
     timer(3)
 
 
-def mostrar_dados(id):
-    print(f'Seus dados cadastrados são:\n {segurados[id]}')
+def mostrar_dados(conexao):
+    def select(conexao, sql):
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            for row in rows:
+                print(row)
+        except cx_Oracle.Error as e:
+            print(f'Erro ao selecionar dados: {e}')
+
+    select_usuario = f'SELECT * FROM TB_USUARIO'
+    select_veiculo = f'SELECT * TB_PSG_TIPO_VEICULO'
+
+    select(conexao, select_usuario)
+    select(conexao, select_veiculo)
+
     print('-' * 100)
 
 
-def alterar_dados(id):
-  def escolha_dados():
+def escolha_dados():
     print('Escolha qual dado você deseja alterar: ')
-    print('[0] - Nome;\n'
-      '[1] - Veiculo;\n'
-      '[2] - Altura do veiculo;\n'
-      '[3] - Placa;\n'
-      '[4] - Numero telefone;\n'
-      '[5] - Eixos;\n'
-      '[6] - Apolice;\n')
+    print('[0] - Largura do veiculo;\n'
+          '[1] - Veiculo;\n'
+          '[2] - Altura do veiculo;\n'
+          '[3] - Chassi;\n'
+          '[4] - Ano;\n')
     while True:
         escolha_usuario = input('Por favor escolha a opção desejada: ')
         print('-' * 100)
-
         if escolha_usuario.isnumeric():
-            if 7 > int(escolha_usuario) >= 0:
-              lista = ['nome', 'veiculo', 'altura', 'placa', 'numero', 'eixos','apolice']
-              return lista[int(escolha_usuario)]
-
+            if 5 > int(escolha_usuario) >= 0:
+                if int(escolha_usuario) == 0:
+                    return 'largura'
+                elif int(escolha_usuario) == 1:
+                    return 'veiculo'
+                elif int(escolha_usuario) == 2:
+                    return 'altura'
+                elif int(escolha_usuario) == 3:
+                    return 'chassi'
+                elif int(escolha_usuario) == 4:
+                    return 'ano'
             else:
                 print('Escolha somente as opções listadas')
                 print('-' * 100)
-
         else:
             print('Por favor utilize números na escolha')
             print('-' * 100)
 
-  if id in segurados:
-    print(f'Seus dados cadastrados são:\n {segurados[id]}')
-    print('-' * 100)
 
+def alterar_dados(id, conexao):
+    def update(conexao, sql):
+        try:
+            cursor = conexao.cursor()
+            cursor.execute(sql)
+            conexao.commit()
+            print("Dados atualizados com sucesso.")
+        except cx_Oracle.Error as e:
+            print(f"Erro ao atualizar dados: {e}")
+
+    escolha = {
+        'largura': 'LARGURA_VEICULO',
+        'veiculo': 'MODELO_VEICULO',
+        'altura': 'ALTURA_VEICULO',
+        'chassi': 'TIPO_CHASSI_VEICULO',
+        'ano': 'ANO_FABRICACAO_VEICULO'
+    }
     dado_para_mudar = escolha_dados()
 
     dado_alterado = dados_cadastro(dado_para_mudar)
 
-    segurados[id][dado_para_mudar] = dado_alterado
+    sql_veiculo = f'UPDATE TB_PSG_TIPO_VEICULO SET {escolha[dado_para_mudar]} = {dado_alterado} WHERE ID_TIPO_VEICULO = {id}'
 
-def registro_sinistro():
-  import json
-  with open('registros.json', 'r') as file:
-    sinistro = json.load(file)
-  return sinistro
+    update(conexao, sql_veiculo)
+
+
+def delete_dados(conexao):
+    delete_veiculo = f'DELETE FROM TB_PSG_TIPO_VEICULO'
+    delete_usuario = f'DELETE FROM TB_USUARIO'
+
+    try:
+        cursor = conexao.cursor()
+        cursor.execute(delete_veiculo)
+        cursor.execute(delete_usuario)
+        conexao.commit()
+        print("Dados deletados com sucesso.")
+    except cx_Oracle.Error as e:
+        print(f'Erro ao deletar dados: {e}')
 
 
 def menu_inicial():
@@ -553,7 +644,7 @@ def menu_inicial():
           '[1] Solicitar sinistro\n'
           '[2] Mostrar dados cadastrados\n'
           '[3] Alterar dados cadastrados\n'
-          '[4] Mostrar historico de sinistro')
+          '[4] Deletar dados cadastrados\n')
     print('-' * 100)
 
     while True:
@@ -573,77 +664,43 @@ def menu_inicial():
             print('-' * 100)
 
 
-segurados = {}
 registros = {}
 
-try:
-    login()
+id_cpf = login()
 
-except:
+if id_cpf == 1:
     print("Você escolheu sair!")
     timer(10)
 
 else:
+    conexao = conexao_oracle()
+    cadastro(id_cpf, conexao)
     while True:
         menu = menu_inicial()
-
         if menu == '0':
             print('-' * 100)
             print('Voce escolheu sair')
             print('-' * 100)
             timer(10)
+            conexao_close(conexao)
             break
 
         elif menu == '1':
-            id_cpf = cpf_entrada()
-            if id_cpf in segurados:
-                abertura_sinistro(id_cpf)
-
-            elif not id_cpf:
-                continue
-            else:
-                print('-' * 100)
-                print('Você não possui nenhum dado cadastrado neste CPF')
+            abertura_sinistro()
 
 
         elif menu == '2':
-            id_cpf = cpf_entrada()
-            if id_cpf in segurados:
-                mostrar_dados(id_cpf)
-                timer(4)
-
-            elif not id_cpf:
-                continue
-            else:
-                print('-' * 100)
-                print('Você não possui nenhum dado cadastrado neste CPF')
-
+            mostrar_dados(conexao)
+            timer(4)
 
         elif menu == '3':
-            id_cpf = cpf_entrada()
-
-            if id_cpf in segurados:
-                alterar_dados(id_cpf)
-                timer(4)
-
-            elif not id_cpf:
-                continue
-            else:
-                print('-' * 100)
-                print('Você não possui nenhum dado cadastrado neste CPF')
-
+            alterar_dados(id_cpf, conexao)
+            timer(4)
 
         elif menu == '4':
-            if len(registros) == 0:
-                print('-' * 100)
-                print('Você não realizou nenhum sinistro!')
+            delete_dados(conexao)
+            timer(4)
 
-            else:
-                print(registro_sinistro())
-                timer(4)
-
-finally:
-    print('-' * 100)
-    print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
-    print('-' * 100)
-
+print('-' * 100)
+print((' ' * 30) + 'Obrigado por usar a RebocAI! <3')
+print('-' * 100)
